@@ -11,6 +11,12 @@ const Draw = "Draw";
 
 for (let index = 0; index < 5; index++) {
     let humanInput = prompt("Enter Rock, Paper or Scissor");
+
+    if (humanInput !== Rock && humanInput !== Paper && humanInput !== Scissor) {
+        console.log("Wrong input, please stick to the Rock, Paper or Scissor only")
+        continue;
+    }
+
     let computerInput;
 
     let randomNumber = Math.random();
@@ -35,41 +41,15 @@ for (let index = 0; index < 5; index++) {
 
 
 function GetRoundResult(humanInput, computerInput) {
+    if (humanInput === computerInput) {
+        return Draw
+    }
+
     if (humanInput === Rock) {
-        if (computerInput === Rock) {
-            return Draw
-        }
-
-        if (computerInput === Paper) {
-            return Lose
-        }
-
-        if (computerInput === Scissor) {
-            return Win
-        }
+        return computerInput === Scissor ? Win : Lose
     } else if (humanInput === Paper) {
-        if (computerInput === Rock) {
-            return Win
-        }
-
-        if (computerInput === Paper) {
-            return Draw
-        }
-
-        if (computerInput === Scissor) {
-            return Lose
-        }
+        computerInput === Rock ? Win : Lose;
     } else if (humanInput === Scissor) {
-        if (computerInput === Rock) {
-            return Lose
-        }
-
-        if (computerInput === Paper) {
-            return Win
-        }
-
-        if (computerInput === Scissor) {
-            return Draw
-        }
+        computerInput === Paper ? Win : Lose;
     }
 }
