@@ -1,55 +1,65 @@
 let computerScore = 0;
 let humanScore = 0;
 
-const Rock = "Rock";
-const Paper = "Paper";
-const Scissor = "Scissor";
+const rock = "Rock";
+const paper = "Paper";
+const scissor = "Scissor";
 
-const Win = "Win";
-const Lose = "Lose";
-const Draw = "Draw";
+const playerWonRound = "Win";
+const playerLostRound = "Lose";
+const roundDraw = "Draw";
 
-for (let index = 0; index < 5; index++) {
-    let humanInput = prompt("Enter Rock, Paper or Scissor");
 
-    if (humanInput !== Rock && humanInput !== Paper && humanInput !== Scissor) {
-        console.log("Wrong input, please stick to the Rock, Paper or Scissor only")
-        continue;
-    }
+const buttons = document.querySelectorAll("button");
+const computerScoreText = document.querySelector(".computerScore");
+const humanScoreText = document.querySelector(".playerScore");
 
-    let computerInput;
+displayScores();
 
-    let randomNumber = Math.random();
-    if (randomNumber > 0 && randomNumber <= .35) {
-        computerInput = Rock;
-    } else if (randomNumber > .35 && randomNumber <= .7) {
-        computerInput = Paper;
-    } else {
-        computerInput = Scissor;
-    }
+buttons.forEach(button => {
+    button.addEventListener("click", onButtonClicked);
+});
 
-    let result = GetRoundResult(humanInput, computerInput);
 
-    if (result === Win) {
+function onButtonClicked(event) {
+    result = getRoundResult(event.target.textContent, getRandomComputerChoise());
+
+    if (result === playerWonRound) {
         humanScore++;
-    } else if (result === Lose) {
+    } else if (result === playerLostRound) {
         computerScore++;
     }
 
-    console.log("Player score = " + humanScore + " Computer scroe = " + computerScore)
+    displayScores();
+}
+
+function displayScores() {
+    computerScoreText.textContent = computerScore;
+    humanScoreText.textContent = humanScore;
+}
+
+function getRandomComputerChoise() {
+    let randomNumber = Math.random();
+    if (randomNumber > 0 && randomNumber <= .35) {
+        return rock;
+    } else if (randomNumber > .35 && randomNumber <= .7) {
+        return paper;
+    } else {
+        return scissor;
+    }
 }
 
 
-function GetRoundResult(humanInput, computerInput) {
+function getRoundResult(humanInput, computerInput) {
     if (humanInput === computerInput) {
-        return Draw
+        return roundDraw
     }
 
-    if (humanInput === Rock) {
-        return computerInput === Scissor ? Win : Lose
-    } else if (humanInput === Paper) {
-        computerInput === Rock ? Win : Lose;
-    } else if (humanInput === Scissor) {
-        computerInput === Paper ? Win : Lose;
+    if (humanInput === rock) {
+        return computerInput === scissor ? playerWonRound : playerLostRound
+    } else if (humanInput === paper) {
+        return computerInput === rock ? playerWonRound : playerLostRound;
+    } else if (humanInput === scissor) {
+        return computerInput === paper ? playerWonRound : playerLostRound;
     }
 }
